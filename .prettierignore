@@ -1,0 +1,8 @@
+# Package Managers
+.svelte-kit
+package-lock.json
+Effect Data Structure.md
+pnpm-lock.yaml
+yarn.lock
+bun.lock
+bun.lockb
