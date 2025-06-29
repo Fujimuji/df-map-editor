@@ -56,7 +56,6 @@
 		cursor: pointer;
 		padding: 1rem 1.5rem;
 	}
-
 	.section-header h4 {
 		margin: 0;
 	}
