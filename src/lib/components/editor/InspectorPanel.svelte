@@ -9,6 +9,7 @@
 	import PrimeAttributeEditor from './PrimeAttributeEditor.svelte';
 	import MissionEditor from './MissionEditor.svelte';
 	import EffectEditor from './EffectEditor.svelte';
+	import AbilityCountEditor from './AbilityCountEditor.svelte';
 	import CollapsibleSection from '$lib/components/shared/CollapsibleSection.svelte';
 
 	export let checkpoint: Checkpoint;
@@ -86,6 +87,7 @@
 	<CollapsibleSection title="Effects">
 		<EffectEditor {checkpoint} {onUpdate} />
 	</CollapsibleSection>
+	<AbilityCountEditor {checkpoint} {onUpdate} />
 </div>
 
 <style>

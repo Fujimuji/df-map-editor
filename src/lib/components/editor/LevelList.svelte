@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { Map } from '$lib/parser-logic/core/models/Map';
-	import { Checkpoint } from '$lib/parser-logic/core/models/Checkpoint';
+	import type { Checkpoint } from '$lib/parser-logic/core/models/Checkpoint';
+	import { AbilityCountData } from '$lib/parser-logic/parser/models/AbilityCountData';
+	import CollapsibleSection from '$lib/components/shared/CollapsibleSection.svelte';
+	import ActionMenu from '$lib/components/shared/ActionMenu.svelte';
 	import Icon from '$lib/components/shared/Icon.svelte';
 	import { chevronUpIcon, chevronDownIcon } from '$lib/icons';
-	import ActionMenu from '$lib/components/shared/ActionMenu.svelte';
 	import { Vector3D } from '$lib/parser-logic/parser/models/Vector3D';
-	import CollapsibleSection from '$lib/components/shared/CollapsibleSection.svelte';
 
 	export let finalMap: Map;
 	export let selectedCheckpoint: Checkpoint | null;
@@ -77,6 +78,9 @@
 						{#if typeof finalMap.Spawn.Prime === 'number' && finalMap.Spawn.Prime % 17 === 0}
 							<span class="attribute-tag" title="Spawnpoint is effect-locked.">Effect Lock</span>
 						{/if}
+						{#if finalMap.Spawn.AbilityCount instanceof AbilityCountData}
+							<span class="attribute-tag" title="Spawnpoint has ability count tracking.">Ability Count</span>
+						{/if}
 					</div>
 				</button>
 			</ul>
@@ -128,15 +132,18 @@
 										>Effects: {checkpoint.Effects.length}</span
 									>
 								{/if}
-								{#if checkpoint.Teleport && checkpoint.Teleport instanceof Vector3D}
-									<span class="attribute-tag" title="This checkpoint has a teleport destination."
-										>Teleport</span
-									>
-								{/if}
 								{#if typeof checkpoint.Prime === 'number' && checkpoint.Prime % 17 === 0}
 									<span class="attribute-tag" title="This checkpoint is effect-locked."
 										>Effect Lock</span
 									>
+								{/if}
+								{#if checkpoint.AbilityCount instanceof AbilityCountData}
+									<span class="attribute-tag" title="This checkpoint has ability count tracking.">Ability Count</span>
+								{/if}
+								{#if checkpoint.Teleport && checkpoint.Teleport instanceof Vector3D}
+								<span class="attribute-tag" title="This checkpoint has a teleport destination."
+									>TP</span
+								>
 								{/if}
 							</div>
 						</button>
@@ -232,16 +239,16 @@
 		flex-grow: 1;
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
+		gap: 0.2rem;
 		justify-content: flex-start;
 		margin-left: 1rem;
 	}
 	.attribute-tag {
 		background-color: var(--card-bg);
 		color: var(--text);
-		padding: 0.25rem 0.5rem;
-		border-radius: 10px;
-		font-size: 0.8rem;
+		padding: 0.1rem 0.3rem;
+		border-radius: 6px;
+		font-size: 0.7rem;
 		border: 1px solid var(--border-color);
 	}
 	.checkpoint-item.selected .attribute-tag {
