@@ -10,6 +10,7 @@
 	import MissionEditor from './MissionEditor.svelte';
 	import EffectEditor from './EffectEditor.svelte';
 	import AbilityCountEditor from './AbilityCountEditor.svelte';
+	import TeleportEditor from './TeleportEditor.svelte';
 	import CollapsibleSection from '$lib/components/shared/CollapsibleSection.svelte';
 
 	export let checkpoint: Checkpoint;
@@ -53,30 +54,7 @@
 		</div>
 	</CollapsibleSection>
 
-	{#if (checkpoint.Teleport && checkpoint.Teleport instanceof Vector3D) || (checkpoint.HiddenCpTt && typeof checkpoint.HiddenCpTt === 'object')}
-		<CollapsibleSection title="Teleport Properties">
-			<div class="property-grid">
-				{#if checkpoint.Teleport instanceof Vector3D}
-					<VectorInput
-						label="TP Destination (X, Y, Z)"
-						bind:vector={checkpoint.Teleport}
-						onInput={onUpdate}
-					/>
-				{/if}
-				{#if checkpoint.HiddenCpTt && typeof checkpoint.HiddenCpTt === 'object'}
-					{@const hiddenCpData = checkpoint.HiddenCpTt}
-					<label
-						><span>TP Radius</span><input
-							type="number"
-							step="0.1"
-							bind:value={hiddenCpData.TeleportRadius}
-							on:input={onUpdate}
-						/></label
-					>
-				{/if}
-			</div>
-		</CollapsibleSection>
-	{/if}
+	<TeleportEditor {checkpoint} {onUpdate} />
 
 	<CollapsibleSection title="Prime Attributes">
 		<PrimeAttributeEditor {checkpoint} {onUpdate} />
