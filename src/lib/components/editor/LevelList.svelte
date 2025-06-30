@@ -5,7 +5,7 @@
 	import CollapsibleSection from '$lib/components/shared/CollapsibleSection.svelte';
 	import ActionMenu from '$lib/components/shared/ActionMenu.svelte';
 	import Icon from '$lib/components/shared/Icon.svelte';
-	import { chevronUpIcon, chevronDownIcon } from '$lib/icons';
+	import { chevronUpIcon, chevronDownIcon, trashIcon } from '$lib/icons';
 	import { Vector3D } from '$lib/parser-logic/parser/models/Vector3D';
 
 	export let finalMap: Map;
@@ -44,6 +44,18 @@
 		const itemToMove = levels.splice(fromIndex, 1)[0];
 		levels.splice(toIndex, 0, itemToMove);
 		reIndexEntireMap();
+	}
+
+	function deleteLevel(index: number) {
+		const levelToDelete = finalMap.Levels[index];
+		// Remove the level
+		finalMap.Levels.splice(index, 1);
+		reIndexEntireMap();
+		// If the selected checkpoint is in the deleted level, clear selection
+		if (selectedCheckpoint && levelToDelete.Checkpoints.some(cp => selectedCheckpoint && cp.Index === selectedCheckpoint.Index)) {
+			selectedCheckpoint = null;
+		}
+		finalMap = finalMap; // Trigger reactivity
 	}
 </script>
 
@@ -109,6 +121,13 @@
 					>
 						<Icon path={chevronDownIcon} size={16} />
 						<span>Move Down</span>
+					</button>
+					<button
+						class="menu-action-button delete-action"
+						on:click={() => deleteLevel(i)}
+					>
+						<Icon path={trashIcon} size={16} />
+						<span>Delete Level</span>
 					</button>
 				</ActionMenu>
 			</div>
@@ -276,5 +295,12 @@
 	:global(.menu-action-button:disabled) {
 		opacity: 0.4;
 		cursor: not-allowed;
+	}
+	:global(.menu-action-button.delete-action) {
+		color: var(--danger, #dc3545);
+	}
+	:global(.menu-action-button.delete-action:hover:not(:disabled)) {
+		background-color: rgba(220, 53, 69, 0.12); /* light red */
+		color: var(--danger, #dc3545);
 	}
 </style>

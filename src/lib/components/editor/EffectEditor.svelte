@@ -397,7 +397,7 @@
 								<button 
 									on:click={() => removePairedEffects(i)} 
 									title="Remove Effect"
-									class="menu-action-button"
+									class="menu-action-button delete-action"
 								>
 									<Icon path={trashIcon} size={16} />
 									<span>Delete</span>
@@ -832,5 +832,12 @@
 			grid-template-columns: 1fr;
 			gap: 1rem;
 		}
+	}
+	.menu-action-button.delete-action {
+		color: var(--danger, #dc3545);
+	}
+	.menu-action-button.delete-action:hover:not(:disabled) {
+		background-color: rgba(220, 53, 69, 0.12);
+		color: var(--danger, #dc3545);
 	}
 </style>
